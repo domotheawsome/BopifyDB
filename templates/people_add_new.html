@@ -5,7 +5,7 @@
     Homeworld: <select name="homeworld">
 	<!-- display all planets inside this dropdown -->
         {% for p in planets %}
-          <option value="{{ p[0] }}">{{ p[1] }}</option>
+          <option value="{{ p['id'] }}">{{ p['name'] }}</option>
         {% endfor %}
     </select><br>
     Age: <input type="number" name="age"><br>

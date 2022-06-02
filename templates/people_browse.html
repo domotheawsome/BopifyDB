@@ -1,7 +1,6 @@
 <html>
 <head><title>Browse people</title></head>
 <h3><a href='/add_new_people'>Add new people</a></h3>
-<p>Here are the rows: {{rows}}</p>
 <h3>Current people</h3>
 <table border='1'>
     <thead>
@@ -13,15 +12,14 @@
     </thead>
     <tbody>
       {% for r in rows %}
-      <p>{{r}}</p>
      <tr>
         <td> {{ r['id'] }}</td>
         <td> {{ r['fname'] }}</td>
         <td> {{ r['lname'] }}</td>
         <td> {{ r['homeworld'] }}</td>
         <td> {{ r['age'] }}</td>
-        <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_people/{{r[4]}}'"> </td>
-        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_people/{{r[4]}}'"> </td>
+        <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_people/{{r['id']}}'"> </td>
+        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_people/{{r['id']}}'"> </td>
       </tr>
       {% endfor %}
     </tbody>
