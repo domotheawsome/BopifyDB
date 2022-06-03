@@ -8,7 +8,7 @@ import configparser
 
 os.environ['340DBHOST'] = 'classmysql.engr.oregonstate.edu'
 os.environ['340DBUSER'] = 'cs340_meshorea'
-os.environ['340DBPW'] = ''
+os.environ['340DBPW'] = '7096'
 os.environ['340DB'] = 'cs340_meshorea'
 
 host = os.environ.get("340DBHOST")
