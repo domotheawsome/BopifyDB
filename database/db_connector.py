@@ -9,7 +9,7 @@ load_dotenv(find_dotenv())
 
 os.environ['340DBHOST'] = 'localhost'
 os.environ['340DBUSER'] = 'root'
-os.environ['340DBPW'] = 'PoopieBaby!123'
+os.environ['340DBPW'] = ""
 os.environ['340DB'] = 'bsg'
 
 host = os.environ.get("340DBHOST")
