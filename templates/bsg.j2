@@ -3,7 +3,7 @@
 <tr>
     <!-- Iterate through each key in the first entry to get the
     column name -->
-    {% for key in bsg_people[0].keys() %}
+    {% for key in bsg_people[0].items() %}
 
     <!-- Create a <th> tag with the key inside of it, this will be
     our header row -->
@@ -11,6 +11,7 @@
 
     <!-- End of this for loop -->
     {% endfor %}
+    <th>hi</hi>
 </tr>
 <tbody>
 

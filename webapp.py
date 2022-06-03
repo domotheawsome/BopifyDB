@@ -1,6 +1,10 @@
-from flask import Flask, render_template
-from flask import request, redirect
 from database.db_connector import connect_to_database, execute_query
+from importlib.util import resolve_name
+import os
+import MySQLdb
+from dotenv import load_dotenv
+from flask import Flask, request, render_template
+import configparser
 
 
 #import database.db_connector as db
@@ -28,8 +32,8 @@ def home():
     execute_query(db_connection, query)
     query = "SELECT * from diagnostic;"
     result = execute_query(db_connection, query)
-    for r in result:
-        print(f"{r[0]}, {r[1]}")
+    #for r in result:
+     #   print(f"{r[0]}, {r[1]}")
     return render_template('home.html', result = result)
 
 @webapp.route('/db_test')

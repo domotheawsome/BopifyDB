@@ -7,10 +7,10 @@ load_dotenv(find_dotenv())
 
 # Set the variables in our application with those environment variables
 
-os.environ['340DBHOST'] = 'localhost'
-os.environ['340DBUSER'] = 'root'
-os.environ['340DBPW'] = ""
-os.environ['340DB'] = 'bsg'
+os.environ['340DBHOST'] = 'classmysql.engr.oregonstate.edu'
+os.environ['340DBUSER'] = 'cs340_meshorea'
+os.environ['340DBPW'] = ''
+os.environ['340DB'] = 'cs340_meshorea'
 
 host = os.environ.get("340DBHOST")
 user = os.environ.get("340DBUSER")
@@ -38,7 +38,7 @@ def execute_query(db_connection = None, query = None, query_params = ()):
     You need to run .fetchall() or .fetchone() on that object to actually acccess the results.
 
     '''
-
+    print("inside this function")
     if db_connection is None:
         print("No connection to the database found! Have you called connect_to_database() first?")
         return None
@@ -67,7 +67,7 @@ def execute_query(db_connection = None, query = None, query_params = ()):
 
 if __name__ == '__main__':
     print("Executing a sample query on the database using the credentials from db_credentials.py")
-    #print(f"{type(host)} {type(user)} {type(passwd)} {type(db)}")
+    print(f"{type(host)} {type(user)} {type(passwd)} {type(db)}")
     db = connect_to_database(host,user,passwd,db)
     print(db)
     query = "SELECT * from bsg_people;"

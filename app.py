@@ -1,6 +1,9 @@
-from flask import Flask, render_template, json
+from importlib.util import resolve_name
 import os
-import database.db_connector as db
+import MySQLdb
+from dotenv import load_dotenv
+from flask import Flask, request, render_template
+import configparser
 
 people_from_app_py = [
 {
@@ -29,44 +32,53 @@ people_from_app_py = [
 }
 ]
 
-
 # Configuration
+os.environ['340DBHOST'] = 'classmysql.engr.oregonstate.edu'
+os.environ['340DBUSER'] = 'cs340_meshorea'
+os.environ['340DBPW'] = ''
+os.environ['340DB'] = 'cs340_meshorea'
 
+host = os.environ.get("340DBHOST")
+user = os.environ.get("340DBUSER")
+passwd = os.environ.get("340DBPW")
+db = os.environ.get("340DB")
 
+def connect_to_database(host,user,passwd,db):
+    '''
+    connects to a database and returns a database objects
+    '''
+    db_conn = MySQLdb.connect(host,user,passwd,db)
+    return db_conn
+
+db_connection = connect_to_database(host,user,passwd,db)
+cursor = db_connection.cursor()
+cursor.execute("SET SESSION wait_timeout=31536000")
+cursor.execute("SET SESSION interactive_timeout=31536000")
+cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+cursor.connection.autocommit(True)
 app = Flask(__name__)
-db_connection = db.connect_to_database()
 
 # Routes 
-
 @app.route('/')
 def root():
     return render_template("main.j2", people=people_from_app_py)
 
 @app.route('/bsg-people')
 def bsg_people():
-    # write the query and save it to a variable
-    query = "SELECT * FROM bsg_people;"
-
-    # The way the interface between MySQL and Flask works is by using an
-    # object called a cursor. Think of it as the object that acts as the
-    # person typing commands directly into the MySQL command line and
-    # reading them back to you when it gets results
-
-    cursor = db.execute_query(db_connection=db_connection, query=query)
-  
-    # The cursor.fetchall() function tells the cursor object to return all
-    # the results from the previously executed
-    #
-    # The json.dumps() function simply converts the dictionary that was
-    # returned by the fetchall() call to JSON so we can display it on the
-    # page.
-
+    cursor = db_connection.cursor()
+    query = 'SELECT * FROM bsg_people;'
+    cursor.execute(query)
     results = cursor.fetchall()
+    # write the query and save it to a variable
+    #print(query)
+    #results = db.execute_query(db_connection=db_connection, query=query).fetchall()
+    #result = execute_query(db_connection, query, data)
+    #results = cursor.fetchall()
     #return("This is the bsg-people routine.")
-    return render_template("bsg.j2", bsg_people=results)
+
+    return render_template("bsg2.j2", bsg_people=results)
 
 # Listener
 
-if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 9112))
-    app.run(port=port, debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=9117, debug=True)
