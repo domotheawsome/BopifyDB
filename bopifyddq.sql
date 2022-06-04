@@ -55,7 +55,8 @@ DROP TABLE IF EXISTS `Artists`;
 CREATE TABLE Artists (
   /* artist specific attributes */
   artist_ID INT AUTO_INCREMENT,
-  artist_name VARCHAR(255) NOT NULL,
+  artist_fname VARCHAR(255) NOT NULL,
+  artist_lname VARCHAR(255) NOT NULL,
   PRIMARY KEY (artist_ID)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -69,7 +70,7 @@ ALTER TABLE Songs
   ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE Songs
-  ADD CONSTRAINT fk_sng_1
+  ADD CONSTRAINT fk_sng_2
   FOREIGN KEY (artist_ID)
   REFERENCES Artists(artist_ID)
   ON DELETE CASCADE ON UPDATE CASCADE;

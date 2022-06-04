@@ -1,0 +1,118 @@
+<html>
+{% for eachfoo in foo %}
+{{eachfoo}}
+{% endfor %}
+
+<h1>Songs page</h1>
+
+<h3>Add new Songs:</h3>
+<form id="addsong" action="{{ url_for('songs_functionality') }}" method="POST">
+    Song name: <input type="text" name="song_name"><br>
+    Song genre: <input type="text" name="song_genre"><br>
+    Artist: <select name="artist_ID">
+	<!-- display all artists inside this dropdown -->
+        {% for a in artists %}
+          <option value="{{ a['artist_ID'] }}">{{ a['artist_fname'] }} {{a['artist_lname']}}</option>
+        {% endfor %}
+    </select><br>
+    Album: <select name="album_ID">
+        <!-- display all artists inside this dropdown -->
+            {% for a in albums %}
+              <option value="{{ a['album_ID'] }}">{{ a['album_name'] }}</option>
+            {% endfor %}
+        </select><br>
+    <input type="submit" name="Submit" value="Add">
+    <!--
+    <input type="submit" name="Update" value="Update">
+    -->
+</form>
+<br/>
+
+<h3>Search for Songs:</h3>
+<form id="searchsong" action="{{ url_for('songs_functionality') }}" method="POST">
+    Song name: <input type="text" name="song_name"><br>
+    Song genre: <input type="text" name="song_genre"><br>
+    <input type="submit" name="Search" value="Search">
+    <!--
+    <input type="submit" name="Update" value="Update">
+    -->
+</form>
+<h3>Return from search</h3>
+<form id="searchsong" action="{{ url_for('songs_functionality') }}" method="POST">
+    <input type="submit" name="Return" value="Return">
+    <!--
+    <input type="submit" name="Update" value="Update">
+    -->
+</form>
+<br/>
+
+<p>{{ data }}</p>
+<p>{{ insert_result }}</p>
+
+
+
+
+<!-- Current songs -->
+<h3>Current Songs</h3>
+<table border='1'>
+    <thead>
+        <th>ID</th>
+        <th>Song Name</th>
+        <th>Song Genre</th>
+        <th>Artist ID</th>
+        <th>Album ID</th>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+     <tr>
+        <td> {{ r['song_ID'] }}</td>
+        <td> {{ r['song_name'] }}</td>
+        <td> {{ r['song_genre'] }}</td>
+        <td> {{ r['artist_ID'] }}</td>
+        <td> {{ r['album_ID'] }}</td>
+        <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_songs/{{r['song_ID']}}'"> </td>
+        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_songs/{{r['song_ID']}}'"> </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+
+
+<!--
+    elif "Update" in request.form:
+        print('The POST request')
+        id = request.form['id']
+        fname = request.form['fname']
+        lname = request.form['lname']
+        age = request.form['age']
+        homeworld = request.form['homeworld']
+
+        updatequery = "UPDATE bsg_songs SET fname = %s, lname = %s, age = %s, homeworld = %s WHERE id = %s"
+        updatedata = (fname, lname, age, homeworld, id)
+        
+        print(str(result.rowcount) + " row(s) updated")
+
+        # check for null/empty data
+        index = 0
+        for data in insertdata:
+            if data == '': insertdata[index] = None
+            index += 1
+        try:
+            result = execute_query(db_connection, updatequery, updatedata)
+
+
+        except Exception as e:
+            error = f"Error: {e.args[1]}" 
+            return  render_template('songs.html', rows=result, planets=planetresult, data=error)
+
+
+                # print out a message to let the user know a cashier was added
+        updateresult = f"song Updated: {fname} {lname}"
+
+        # query to get new data
+        query = "SELECT fname, lname, homeworld, age, id from bsg_songs;"
+        result = execute_query(db_connection, query)
+
+        return  render_template('songs.html', rows=result, planets=planetresult, insertresult=updateresult)
+-->
+</html>

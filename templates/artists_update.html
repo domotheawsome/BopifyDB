@@ -1,0 +1,9 @@
+<h3>Update an Artist:</h3>
+<form id="update_artist" action="/update_artists/{{artist['artist_ID']}}" method="POST">
+  <!-- character_id {{ character_id }} -->
+  <input type="hidden" name="artist_ID" value = "{{ artist['artist_ID'] }}">
+  First name: <input type="text" name="artist_fname" value = "{{ artist['fname'] }}"><br>
+  Last name: <input type="text" name="artist_lname" value = "{{ artist['lname'] }}" ><br>
+    <input type="submit" value="Submit">
+ </form>
+<br/>

@@ -1,0 +1,21 @@
+<h3>Update an Album:</h3>
+<form id="update_album" action="/update_songs/{{album['album_ID']}}" method="POST">
+  <!-- character_id {{ character_id }} -->
+  <input type="hidden" name="album_ID" value = "{{ album['album_ID'] }}">
+  Album Name: <input type="text" name="album_name" value = "{{ album['album_name'] }}"><br>
+  Album Genre: <input type="text" name="album_genre" value = "{{ album['album_genre'] }}" ><br>
+  Artist_ID: <select name="artist_ID">
+	<!-- display all planets inside this dropdown -->
+        {% for artist in artists %}
+          {{ artist['artist_ID'] }}
+          {{ album['artist_ID'] }}
+          {% if artist['artist_ID'] == album['artist_ID'] %}
+             <option selected value="{{ artist['artist_ID'] }}">{{ artist['artist_fname'] }} {{artist['artist_lname'] }}</option>
+          {% else %}
+            <option value="{{ artist['artist_ID'] }}">{{ artist['artist_fname'] }} {{artist['artist_lname'] }}</option>
+          {% endif %}
+        {% endfor %}
+    </select><br>
+    <input type="submit" value="Submit">
+ </form>
+<br/>
