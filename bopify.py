@@ -496,7 +496,7 @@ def update_songs(id):
         artistsresult = execute_query(db_connection, artistsquery).fetchall()
 
         print('Returning')
-        return render_template('albums_update.html', song = songsresult, artists = artistsresult, albums = albums_result)
+        return render_template('songs_update.html', song = songsresult, artists = artistsresult, albums = albums_result)
     elif request.method == 'POST':
         print('The POST request')
         song_ID = request.form['song_ID']
@@ -504,7 +504,7 @@ def update_songs(id):
         song_genre = request.form['song_genre']
         album_ID = request.form['album_ID']
         artist_ID = request.form['artist_ID']
-        data = (song_name, song_genre, artist_ID, album_ID, song_ID)
+        data = (song_name, song_genre, album_ID, artist_ID, song_ID)
         query = "UPDATE Songs SET song_name = %s, song_genre = %s, album_ID = %s, artist_ID = %s WHERE song_ID = %s"
     
         result = execute_query(db_connection, query, data)

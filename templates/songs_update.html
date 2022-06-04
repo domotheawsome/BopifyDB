@@ -1,21 +1,33 @@
-<h3>Update an Album:</h3>
-<form id="update_album" action="/update_songs/{{album['album_ID']}}" method="POST">
+<h3>Update a Song:</h3>
+<form id="update_song" action="/update_songs/{{song['song_ID']}}" method="POST">
   <!-- character_id {{ character_id }} -->
-  <input type="hidden" name="album_ID" value = "{{ album['album_ID'] }}">
-  Album Name: <input type="text" name="album_name" value = "{{ album['album_name'] }}"><br>
-  Album Genre: <input type="text" name="album_genre" value = "{{ album['album_genre'] }}" ><br>
-  Artist_ID: <select name="artist_ID">
-	<!-- display all planets inside this dropdown -->
+  <input type="hidden" name="song_ID" value = "{{ song['song_ID'] }}">
+  Song Name: <input type="text" name="song_name" value = "{{ song['song_name'] }}"><br>
+  Song Genre: <input type="text" name="song_genre" value = "{{ song['song_genre'] }}" ><br>
+  artist_ID: <select name="artist_ID">
+	<!-- display all artists inside this dropdown -->
         {% for artist in artists %}
           {{ artist['artist_ID'] }}
-          {{ album['artist_ID'] }}
-          {% if artist['artist_ID'] == album['artist_ID'] %}
+          {{ song['song_ID'] }}
+          {% if artist['artist_ID'] == song['song_ID'] %}
              <option selected value="{{ artist['artist_ID'] }}">{{ artist['artist_fname'] }} {{artist['artist_lname'] }}</option>
           {% else %}
             <option value="{{ artist['artist_ID'] }}">{{ artist['artist_fname'] }} {{artist['artist_lname'] }}</option>
           {% endif %}
         {% endfor %}
     </select><br>
+    album_ID: <select name="album_ID">
+      <!-- display all albums inside this dropdown -->
+            {% for album in albums %}
+              {{ album['album_ID'] }}
+              {{ song['song_ID'] }}
+              {% if album['album_ID'] == song['song_ID'] %}
+                 <option selected value="{{ album['album_ID'] }}">{{ album['album_name'] }}</option>
+              {% else %}
+                <option value="{{ album['album_ID'] }}">{{ album['album_name'] }}</option>
+              {% endif %}
+            {% endfor %}
+        </select><br>
     <input type="submit" value="Submit">
  </form>
 <br/>

@@ -1,0 +1,9 @@
+<h3>Update a User:</h3>
+<form id="update_user" action="/update_users/{{user['user_ID']}}" method="POST">
+  <!-- character_id {{ character_id }} -->
+  <input type="hidden" name="user_ID" value = "{{ user['user_ID'] }}">
+  Username: <input type="text" name="user_name" value = "{{ user['user_name'] }}"><br>
+  User Email: <input type="text" name="user_email" value = "{{ user['user_email'] }}" ><br>
+    <input type="submit" value="Submit">
+ </form>
+<br/>
