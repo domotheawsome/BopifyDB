@@ -781,11 +781,114 @@ def delete_playlists(id):
 
 ################## END PLAYLISTS ####################
 
-######### PLAYLISTINSONGS FUNCTIONALITY #############
+######### PLAYLISTSSONGS FUNCTIONALITY #############
+
+## for PlaylistsSongs, we only have to implement
+## the insert and delete functionality.
+
+## we do not have to implement update/search, which
+## makes sense given its a junction table
+
+
+
+@bopify.route('/PlaylistsSongs')
+def PlaylistsSongs():
+
+
+    print("Fetching and rendering playlists web page")
+    db_connection = connect_to_database(host,user,passwd,db)
+
+    PlaylistsSongsquery = "SELECT playlist_ID, song_ID, playlistinsong_ID from PlaylistsInSong;"
+    PlaylistsSongsresult = execute_query(db_connection, PlaylistsSongsquery).fetchall()
+    print(PlaylistsSongsresult)
+
+    playlistsquery = "SELECT playlist_ID, playlist_name from Playlists;"
+    playlistsresult = execute_query(db_connection, playlistsquery).fetchall()
+
+    songsquery = "SELECT song_name, song_ID from Songs;"
+    songsresult = execute_query(db_connection, songsquery).fetchall()
+    print(songsresult)
+    print(playlistsresult)
+
+
+    return render_template('PlaylistsSongs.html', rows=PlaylistsSongsresult, songs=songsresult, playlists=playlistsresult)
+
+
+@bopify.route('/PlaylistsSongs_functionality/', methods=['GET', 'POST'])
+def PlaylistsSongs_functionality():
+    
+    db_connection = connect_to_database(host,user,passwd,db)
+
+    PlaylistsSongsquery = "SELECT playlist_ID, song_ID, playlistinsong_ID from PlaylistsInSong;"
+    PlaylistsSongsresult = execute_query(db_connection, PlaylistsSongsquery).fetchall()
+    print(PlaylistsSongsresult)
+
+    playlistsquery = "SELECT playlist_ID, playlist_name from Playlists;"
+    playlistsresult = execute_query(db_connection, playlistsquery).fetchall()
+
+    songsquery = "SELECT song_name, song_ID from Songs;"
+    songsresult = execute_query(db_connection, songsquery).fetchall()
+    print(songsresult)
+    print(playlistsresult)
+
+
+    if "Submit" in request.form:
+        print("Add new playlists!")
+        playlist_ID = request.form['playlist_ID']
+        song_ID = request.form['song_ID']
+
+        insertquery = 'INSERT INTO PlaylistsInSong (playlist_ID, song_ID) VALUES (%s,%s)'
+        insertdata = [playlist_ID, song_ID]
+
+        # check for null/empty data
+        index = 0
+        for data in insertdata:
+            if data == '': 
+                insertdata[index] = None
+            index += 1
+        try:
+            execute_query(db_connection, insertquery, insertdata)
+
+
+        except Exception as e:
+            error = f"Error: {e.args[1]}" 
+            return  render_template('PlaylistsSongs.html', rows=PlaylistsSongsresult, songs=songsresult, playlists=playlistsresult, data=error)
+
+
+                # print out a message to let the user know a cashier was added
+        insertresult = f"PlaylistSong Added: {playlist_ID} {song_ID}"
+
+        # query to get new data
+        PlaylistsSongsquery = "SELECT playlist_ID, song_ID, playlistinsong_ID from PlaylistsInSong;"
+        PlaylistsSongsresult = execute_query(db_connection, PlaylistsSongsquery).fetchall()
+        print(PlaylistsSongsresult)
+
+        playlistsquery = "SELECT playlist_ID, playlist_name from Playlists;"
+        playlistsresult = execute_query(db_connection, playlistsquery).fetchall()
+
+        songsquery = "SELECT song_name, song_ID from Songs;"
+        songsresult = execute_query(db_connection, songsquery).fetchall()
+        print(songsresult)
+        print(playlistsresult)
+
+        return render_template('PlaylistsSongs.html', rows=PlaylistsSongsresult, songs=songsresult, playlists=playlistsresult, insertresult=insertresult)
+    elif "Delete" in request.form:
+        pass
+
+        
+@bopify.route('/delete_PlaylistsSongs/<int:id>')
+def delete_PlaylistsSongs(id):
+    '''deletes a playlist with the given id'''
+    db_connection = connect_to_database(host,user,passwd,db)
+    query = "DELETE FROM PlaylistsInSong WHERE playlistinsong_ID = %s"
+    data = (id,)
+
+    result = execute_query(db_connection, query, data)
+    return redirect('/PlaylistsSongs')
 
 ############# END PLAYLISTSINSONGS ##################
 
 
 
 if __name__ == '__main__':
-    bopify.run(host='0.0.0.0', port=9119, debug=True)
+    bopify.run(host='0.0.0.0', port=9120, debug=True)

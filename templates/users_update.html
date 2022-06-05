@@ -1,9 +1,22 @@
-<h3>Update a User:</h3>
-<form id="update_user" action="/update_users/{{user['user_ID']}}" method="POST">
-  <!-- character_id {{ character_id }} -->
-  <input type="hidden" name="user_ID" value = "{{ user['user_ID'] }}">
-  Username: <input type="text" name="user_name" value = "{{ user['user_name'] }}"><br>
-  User Email: <input type="text" name="user_email" value = "{{ user['user_email'] }}" ><br>
-    <input type="submit" value="Submit">
- </form>
-<br/>
+{% extends 'layouts/layouts.html' %}
+{% block content %}
+<div class="pagecontainer">
+  <div class="formcontainer">
+    <h3 class="display-1 header">Update a User:</h3>
+    <form id="update_user" action="/update_users/{{user['user_ID']}}" method="POST">
+      <!-- character_id {{ character_id }} -->
+      <input type="hidden" name="user_ID" value = "{{ user['user_ID'] }}">
+      <div class="form-group">
+        <label for="user_name"> Username:</label>
+        <input type="text" class="form-control" name="user_name" value = "{{ user['user_name'] }}"><br>
+      </div>
+      <div class="form-group mt-30">
+        <label for="user_email"> User email:</label>
+        <input type="text" class="form-control" name="user_email" value = "{{ user['user_email'] }}" ><br>
+      </div>
+      <input type="submit" class="btn btn-light" value="Submit">
+    </form>
+    <br/>
+  </div>
+</div>
+{% endblock %}

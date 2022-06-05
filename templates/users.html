@@ -1,65 +1,84 @@
+{% extends 'layouts/layouts.html' %}
+{% block content %}
 <html>
 {% for eachfoo in foo %}
 {{eachfoo}}
 {% endfor %}
 
-<h1>Users page</h1>
 
-<h3>Add New Users:</h3>
-<form id="adduser" action="{{ url_for('users_functionality') }}" method="POST">
-    Username: <input type="text" name="user_name"><br>
-    User Email: <input type="text" name="user_email"><br>
-    <input type="submit" name="Submit" value="Add">
-    <!--
-    <input type="submit" name="Update" value="Update">
-    -->
-</form>
-<br/>
+<div class="pagecontainer">
+    <div class="formcontainer">
+        <h3 class="display-1 header">Add New Users:</h3>
+        <form id="adduser" action="{{ url_for('users_functionality') }}" method="POST">
+            <div class="form-group">
+                <label for="user_name"> Username:</label>
+                <input type="text" class="form-control" name="user_name"><br>
+            </div>
+            <div class="form-group mt-30">
+                <label for="user_email"> User email:</label>
+                <input type="text" class="form-control" name="user_email"><br>
+            </div>
+            <input type="submit" class="btn btn-light" name="Submit" value="Add">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <br/>
 
-<h3>Search for Users:</h3>
-<form id="searchuser" action="{{ url_for('users_functionality') }}" method="POST">
-    Username: <input type="text" name="user_name"><br>
-    User Email: <input type="text" name="user_email"><br>
-    <input type="submit" name="Search" value="Search">
-    <!--
-    <input type="submit" name="Update" value="Update">
-    -->
-</form>
-<h3>Return from search</h3>
-<form id="searchuser" action="{{ url_for('users_functionality') }}" method="POST">
-    <input type="submit" name="Return" value="Return">
-    <!--
-    <input type="submit" name="Update" value="Update">
-    -->
-</form>
-<br/>
+        <h3 class="display-1 header">Search for Users:</h3>
+        <form id="searchuser" action="{{ url_for('users_functionality') }}" method="POST">
+            <div class="form-group">
+                <label for="user_name"> Username:</label>
+                <input type="text" class="form-control" name="user_name"><br>
+            </div>
+            <div class="form-group mt-30">
+                <label for="user_email"> User email:</label>
+                <input type="text" class="form-control" name="user_email"><br>
+            </div>
+            <input type="submit"  class="btn btn-light" name="Search" value="Search">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <h3 class="display-1 header">Return from search</h3>
+        <form id="searchuser" action="{{ url_for('users_functionality') }}" method="POST">
+            <input type="submit" class="btn btn-light mt20" name="Return" value="Return">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <br/>
+    </div>
 
 
-<p>{{ insert_result }}</p>
+    <p>{{ insert_result }}</p>
 
 
 
 
-<!-- Current people -->
-<h3>Current users</h3>
-<table border='1'>
-    <thead>
-        <th>ID</th>
-        <th>Username</th>
-        <th>User Email</th>
-    </thead>
-    <tbody>
-      {% for r in rows %}
-     <tr>
-        <td> {{ r['user_ID'] }}</td>
-        <td> {{ r['user_name'] }}</td>
-        <td> {{ r['user_email'] }}</td>
-        <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_users/{{r['user_ID']}}'"> </td>
-        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_users/{{r['user_ID']}}'"> </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-</table>
+    <!-- Current people -->
+    <h3 class="display-1 header">Current users</h3>
+    <table class="table" style="margin-bottom: 100px;">
+        <thead>
+            <th scope="col">ID</th>
+            <th scope="col">Username</th>
+            <th scope="col">User Email</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+        {% for r in rows %}
+        <tr>
+            <th scope="row"> {{ r['user_ID'] }}</th>
+            <td> {{ r['user_name'] }}</td>
+            <td> {{ r['user_email'] }}</td>
+            <td> <input type='button' name='Update' class="btn btn-light" value='Update' onclick="window.location = '/update_users/{{r['user_ID']}}'"> </td>
+            <td> <input type='button' name='Delete' class="btn btn-light" value='Delete' onclick="window.location = '/delete_users/{{r['user_ID']}}'"> </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 
 <!--
@@ -100,3 +119,4 @@
         return  render_template('people.html', rows=result, planets=planetresult, insertresult=updateresult)
 -->
 </html>
+{% endblock %}

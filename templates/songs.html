@@ -1,50 +1,71 @@
+{% extends 'layouts/layouts.html' %}
+{% block content %}
 <html>
 {% for eachfoo in foo %}
 {{eachfoo}}
 {% endfor %}
 
-<h1>Songs page</h1>
+<div class="pagecontainer">
+    <div class="formcontainer">
+        <h3 class="display-1 header">Add new Songs:</h3>
+        <form id="addsong" action="{{ url_for('songs_functionality') }}" method="POST">
+            <div class="form-group">
+                <label for="song_name"> Song name:</label>
+                <input class="form-control" type="text" name="song_name"><br>
+            </div>
+            <div class="form-group mt-30">
+                <label for="song_name"> Song genre:</label>
+                <input type="text" class="form-control" name="song_genre"><br>
+            </div>
+            <div class="form-group mt-30">
+                <label for="song_name" > Artist:</label>
+                <select class="form-control" name="artist_ID">
+                <!-- display all artists inside this dropdown -->
+                    {% for a in artists %}
+                    <option value="{{ a['artist_ID'] }}">{{ a['artist_fname'] }} {{a['artist_lname']}}</option>
+                    {% endfor %}
+                </select><br>
+            </div>
+            <div class="form-group mt-30">
+                <label for="song_name"> Album:</label>
+                <select class="form-control" name="album_ID">
+                <!-- display all artists inside this dropdown -->
+                    {% for a in albums %}
+                    <option value="{{ a['album_ID'] }}">{{ a['album_name'] }}</option>
+                    {% endfor %}
+                </select><br>
+            </div>
+            <input type="submit" class="btn btn-light" name="Submit" value="Add">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <br/>
 
-<h3>Add new Songs:</h3>
-<form id="addsong" action="{{ url_for('songs_functionality') }}" method="POST">
-    Song name: <input type="text" name="song_name"><br>
-    Song genre: <input type="text" name="song_genre"><br>
-    Artist: <select name="artist_ID">
-	<!-- display all artists inside this dropdown -->
-        {% for a in artists %}
-          <option value="{{ a['artist_ID'] }}">{{ a['artist_fname'] }} {{a['artist_lname']}}</option>
-        {% endfor %}
-    </select><br>
-    Album: <select name="album_ID">
-        <!-- display all artists inside this dropdown -->
-            {% for a in albums %}
-              <option value="{{ a['album_ID'] }}">{{ a['album_name'] }}</option>
-            {% endfor %}
-        </select><br>
-    <input type="submit" name="Submit" value="Add">
-    <!--
-    <input type="submit" name="Update" value="Update">
-    -->
-</form>
-<br/>
-
-<h3>Search for Songs:</h3>
-<form id="searchsong" action="{{ url_for('songs_functionality') }}" method="POST">
-    Song name: <input type="text" name="song_name"><br>
-    Song genre: <input type="text" name="song_genre"><br>
-    <input type="submit" name="Search" value="Search">
-    <!--
-    <input type="submit" name="Update" value="Update">
-    -->
-</form>
-<h3>Return from search</h3>
-<form id="searchsong" action="{{ url_for('songs_functionality') }}" method="POST">
-    <input type="submit" name="Return" value="Return">
-    <!--
-    <input type="submit" name="Update" value="Update">
-    -->
-</form>
-<br/>
+        <h3 class="display-1 header">Search for Songs:</h3>
+        <form id="searchsong" action="{{ url_for('songs_functionality') }}" method="POST">
+            <div class="form-group">
+                <label for="song_name" > Song name:</label>
+                <input class="form-control" type="text" name="song_name"><br>
+            </div>
+            <div class="form-group mt-30">
+                <label for="song_genre" > Song genre:</label>
+                <input  class="form-control"type="text" name="song_genre"><br>
+            </div>
+            <input  class="btn btn-light" type="submit" name="Search" value="Search">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <h3 class="display-1 header">Return from search</h3>
+        <form id="searchsong" action="{{ url_for('songs_functionality') }}" method="POST">
+            <input  class="btn btn-light mt20" type="submit" name="Return" value="Return">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <br/>
+    </div>
 
 <p>{{ data }}</p>
 <p>{{ insert_result }}</p>
@@ -53,29 +74,46 @@
 
 
 <!-- Current songs -->
-<h3>Current Songs</h3>
-<table border='1'>
+<h3 class="display-1 header">Current Songs</h3>
+<table class="table" style="margin-bottom: 100px;">
     <thead>
-        <th>ID</th>
-        <th>Song Name</th>
-        <th>Song Genre</th>
-        <th>Artist ID</th>
-        <th>Album ID</th>
+        <th scope="col">ID</th>
+        <th scope="col">Song Name</th>
+        <th scope="col">Song Genre</th>
+        <th scope="col">Artist ID</th>
+        <th scope="col">Artist Name</th>
+        <th scope="col">Album ID</th>
+        <th scope="col">Album Name</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
     </thead>
     <tbody>
       {% for r in rows %}
      <tr>
-        <td> {{ r['song_ID'] }}</td>
+        <th scope="row"> {{ r['song_ID'] }}</th>
         <td> {{ r['song_name'] }}</td>
         <td> {{ r['song_genre'] }}</td>
         <td> {{ r['artist_ID'] }}</td>
+        {% for artist in artists %}
+            {% if r['artist_ID'] == artist['artist_ID'] %}
+                <td selected value="{{ artist['artist_ID'] }}">{{ artist['artist_fname'] }} {{ artist['artist_lname'] }}</td>
+                
+            {% endif %}
+        {% endfor %}
         <td> {{ r['album_ID'] }}</td>
-        <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_songs/{{r['song_ID']}}'"> </td>
-        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_songs/{{r['song_ID']}}'"> </td>
+        {% for album in albums %}
+            {% if r['album_ID'] == album['album_ID'] %}
+                <td selected value="{{ album['album_ID'] }}">{{ album['album_name'] }}</td>
+                
+            {% endif %}
+        {% endfor %}
+        <td> <input type='button' class="btn btn-light" name='Update' value='Update' onclick="window.location = '/update_songs/{{r['song_ID']}}'"> </td>
+        <td> <input type='button' class="btn btn-light" name='Delete' value='Delete' onclick="window.location = '/delete_songs/{{r['song_ID']}}'"> </td>
       </tr>
       {% endfor %}
     </tbody>
 </table>
+</div>
 
 
 <!--
@@ -116,3 +154,4 @@
         return  render_template('songs.html', rows=result, planets=planetresult, insertresult=updateresult)
 -->
 </html>
+{% endblock %}

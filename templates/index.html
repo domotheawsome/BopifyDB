@@ -1,3 +1,7 @@
+{% extends 'layouts/layouts.html' %}
+
+
+
 
 <head>
 <h1>Welcome to BSG People and Planets</h1>
@@ -5,6 +9,9 @@
 </head>
 
 <body>
+    {% block content %}
+    <p>hi</p>
+    <!--
     <div>
         <nav>
             <ul>
@@ -29,6 +36,10 @@
                     <a href="/playlists" id="playlists">Playlists Page</a>
                 </li>
                 <li>
+                    <label for="PlaylistsSongs"></label>
+                    <a href="/PlaylistsSongs" id="PlaylistsSongs">PlaylistsSongs Page</a>
+                </li>
+                <li>
                     <label for="Test"></label>
                     <a href="/db_test" id="db_test">Test the database (CS340_meshorea)</a>
                 </li>
@@ -39,4 +50,6 @@
             </ul>
         </nav>
     </div>
+    -->
+    {% endblock %}
 </body>

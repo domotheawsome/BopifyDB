@@ -1,69 +1,94 @@
+{% extends 'layouts/layouts.html' %}
+
+
 <html>
+{% block content %}
 {% for eachfoo in foo %}
 {{eachfoo}}
 {% endfor %}
 
-<h1>Playlists Page</h1>
 
-<h3>Add new Playlists:</h3>
-<form id="addplaylist" action="{{ url_for('playlists_functionality') }}" method="POST">
-    Playlist Name: <input type="text" name="playlist_name"><br>
-    Users: <select name="user_ID">
-	<!-- display all users inside this dropdown -->
-        {% for u in users %}
-          <option value="{{ u['user_ID'] }}">{{ u['user_name'] }}</option>
+<div class="pagecontainer">
+    <div class="formcontainer">
+        <h3 class="display-1 header">Add new Playlists:</h3>
+        <form id="addplaylist" action="{{ url_for('playlists_functionality') }}" method="POST">
+            <div class="form-group">
+                <label for="playlist_name"> Playlist name:</label>
+                <input type="text" class="form-control" name="playlist_name"><br>
+            </div>
+            <div class="form-group mt-30"> 
+                <label for="user_ID"> Username:</label>
+                <select class="form-control" name="user_ID">
+                <!-- display all users inside this dropdown -->
+                    {% for u in users %}
+                    <option value="{{ u['user_ID'] }}">{{ u['user_name'] }}</option>
+                    {% endfor %}
+                </select><br>
+            </div>
+            <input type="submit" class="btn btn-light" name="Submit" value="Add">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <br/>
+
+        <h3 class="display-1 header">Search for Playlists:</h3>
+        <form id="searchplaylist" action="{{ url_for('playlists_functionality') }}" method="POST">
+            <div class="form-group">
+                <label for="playlist_name"> Playlist name:</label>
+                <input type="text" class="form-control" name="playlist_name"><br>
+            </div>
+            <input  class="btn btn-light" type="submit" name="Search" value="Search">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <h3 class="display-1 header">Return from search</h3>
+        <form id="searchplaylist" action="{{ url_for('playlists_functionality') }}" method="POST">
+            <input type="submit" class="btn btn-light mt20" name="Return" value="Return">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <br/>
+    </div>
+
+    <p>{{ data }}</p>
+    <p>{{ insert_result }}</p>
+
+
+
+
+    <!-- Current playlists -->
+    <h3 class="display-1 header">Current playlists</h3>
+    <table class="table" style="margin-bottom: 100px;">
+        <thead>
+            <th scope="col">ID</th>
+            <th scope="col">Playlist Name</th>
+            <th scope="col">User ID</th>
+            <th scope="col">User Name</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+        {% for r in rows %}
+        <tr>
+            <th scope="row"> {{ r['playlist_ID'] }}</th>
+            <td> {{ r['playlist_name'] }}</td>
+            <td> {{ r['user_ID'] }}</td>
+            {% for user in users %}
+                {% if r['user_ID'] == user['user_ID'] %}
+                    <td selected value="{{ user['user_ID'] }}">{{ user['user_name'] }}</td>
+                    
+                {% endif %}
+            {% endfor %}
+            <td> <input type='button' class="btn btn-light" name='Update' value='Update' onclick="window.location = '/update_playlists/{{r['playlist_ID']}}'"> </td>
+            <td> <input type='button' class="btn btn-light" name='Delete' value='Delete' onclick="window.location = '/delete_playlists/{{r['playlist_ID']}}'"> </td>
+        </tr>
         {% endfor %}
-    </select><br>
-    <input type="submit" name="Submit" value="Add">
-    <!--
-    <input type="submit" name="Update" value="Update">
-    -->
-</form>
-<br/>
-
-<h3>Search for Playlists:</h3>
-<form id="searchplaylist" action="{{ url_for('playlists_functionality') }}" method="POST">
-    Playlist Name: <input type="text" name="playlist_name"><br>
-    <input type="submit" name="Search" value="Search">
-    <!--
-    <input type="submit" name="Update" value="Update">
-    -->
-</form>
-<h3>Return from search</h3>
-<form id="searchplaylist" action="{{ url_for('playlists_functionality') }}" method="POST">
-    <input type="submit" name="Return" value="Return">
-    <!--
-    <input type="submit" name="Update" value="Update">
-    -->
-</form>
-<br/>
-
-<p>{{ data }}</p>
-<p>{{ insert_result }}</p>
-
-
-
-
-<!-- Current playlists -->
-<h3>Current playlists</h3>
-<table border='1'>
-    <thead>
-        <th>ID</th>
-        <th>Playlist Name</th>
-        <th>User ID</th>
-    </thead>
-    <tbody>
-      {% for r in rows %}
-     <tr>
-        <td> {{ r['playlist_ID'] }}</td>
-        <td> {{ r['playlist_name'] }}</td>
-        <td> {{ r['user_ID'] }}</td>
-        <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_playlists/{{r['playlist_ID']}}'"> </td>
-        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_playlists/{{r['playlist_ID']}}'"> </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 
 
 <!--
@@ -103,4 +128,7 @@
 
         return  render_template('playlists.html', rows=result, planets=planetresult, insertresult=updateresult)
 -->
+
+{% endblock %}
 </html>
+

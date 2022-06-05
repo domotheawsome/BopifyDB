@@ -1,0 +1,118 @@
+{% extends 'layouts/layouts.html' %}
+{% block content %}
+<html>
+{% for eachfoo in foo %}
+{{eachfoo}}
+{% endfor %}
+
+
+<div class="pagecontainer">
+    <div class="formcontainer">
+        <h3 class="display-1 header">Add new Playlist-Song relationship:</h3>
+        <form id="addPlaylistsSongs" action="{{ url_for('PlaylistsSongs_functionality') }}" method="POST">
+            <div class="form-group">
+                <label for="playlist_name"> Playlist name:</label>
+                <select class="form-control" name="playlist_ID">
+            <!-- display all artists inside this dropdown -->
+                {% for p in playlists %}
+                    <option value="{{ p['playlist_ID'] }}">{{ p['playlist_name'] }}</option>
+                {% endfor %}
+                </select><br>
+            </div>
+            <div class="form-group mt-30">
+                <label for="song_name"> Song:</label>
+                <select class="form-control" name="song_ID">
+                <!-- display all artists inside this dropdown -->
+                    {% for s in songs %}
+                        <option value="{{ s['song_ID'] }}">{{ s['song_name'] }}</option>
+                    {% endfor %}
+                </select><br>
+            </div>
+            <input type="submit" class="btn btn-light" name="Submit" value="Add">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <br/>
+    </div>
+
+<p>{{ data }}</p>
+<p>{{ insert_result }}</p>
+
+
+
+
+    <!-- Current songs -->
+    <h3 "display-1 header">Current Playlists and their Songs</h3>
+    <table  class="table" style="margin-bottom: 100px;">
+        <thead>
+            <th scope="col">Playlist ID</th>
+            <th scope="col">Playlist Name</th>
+            <th scope="col">Song ID</th>
+            <th scope="col">Song Name</th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+        {% for r in rows %}
+        <tr>
+            <td> {{ r['playlist_ID'] }}</td>
+            {% for playlist in playlists %}
+
+                {% if r['playlist_ID'] == playlist['playlist_ID'] %}
+                    <td selected value="{{ playlist['playlist_ID'] }}">{{ playlist['playlist_name'] }}</td>
+                    
+                {% endif %}
+            {% endfor %}
+            <td> {{ r['song_ID'] }}</td>
+            {% for song in songs %}
+                {% if r['song_ID'] == song['song_ID'] %}
+                    <td selected value="{{ song['song_ID'] }}">{{ song['song_name'] }}</td>
+                    
+                {% endif %}
+            {% endfor %}
+            <td> <input type='button' class="btn btn-light" name='Delete' value='Delete' onclick="window.location = '/delete_PlaylistsSongs/{{r['playlistinsong_ID']}}'"> </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!--
+    elif "Update" in request.form:
+        print('The POST request')
+        id = request.form['id']
+        fname = request.form['fname']
+        lname = request.form['lname']
+        age = request.form['age']
+        homeworld = request.form['homeworld']
+
+        updatequery = "UPDATE bsg_songs SET fname = %s, lname = %s, age = %s, homeworld = %s WHERE id = %s"
+        updatedata = (fname, lname, age, homeworld, id)
+        
+        print(str(result.rowcount) + " row(s) updated")
+
+        # check for null/empty data
+        index = 0
+        for data in insertdata:
+            if data == '': insertdata[index] = None
+            index += 1
+        try:
+            result = execute_query(db_connection, updatequery, updatedata)
+
+
+        except Exception as e:
+            error = f"Error: {e.args[1]}" 
+            return  render_template('songs.html', rows=result, planets=planetresult, data=error)
+
+
+                # print out a message to let the user know a cashier was added
+        updateresult = f"song Updated: {fname} {lname}"
+
+        # query to get new data
+        query = "SELECT fname, lname, homeworld, age, id from bsg_songs;"
+        result = execute_query(db_connection, query)
+
+        return  render_template('songs.html', rows=result, planets=planetresult, insertresult=updateresult)
+-->
+</html>
+{% endblock %}

@@ -1,9 +1,22 @@
-<h3>Update an Artist:</h3>
-<form id="update_artist" action="/update_artists/{{artist['artist_ID']}}" method="POST">
-  <!-- character_id {{ character_id }} -->
-  <input type="hidden" name="artist_ID" value = "{{ artist['artist_ID'] }}">
-  First name: <input type="text" name="artist_fname" value = "{{ artist['artist_fname'] }}"><br>
-  Last name: <input type="text" name="artist_lname" value = "{{ artist['artist_lname'] }}" ><br>
-    <input type="submit" value="Submit">
- </form>
-<br/>
+{% extends 'layouts/layouts.html' %}
+{% block content %}
+<div class="pagecontainer">
+  <div class="formcontainer">
+    <h3 class="display-1 header">Update an Artist:</h3>
+    <form id="update_artist" action="/update_artists/{{artist['artist_ID']}}" method="POST">
+      <!-- character_id {{ character_id }} -->
+      <input type="hidden" name="artist_ID" value = "{{ artist['artist_ID'] }}">
+      <div class="form-group">
+        <label for="artist_fname"> First name:</label>
+        <input type="text" class="form-control" name="artist_fname" value = "{{ artist['artist_fname'] }}"><br>
+      </div>
+      <div class="form-group mt-30">
+        <label for="artist_lname"> Last name:</label>
+        <input type="text" class="form-control" name="artist_lname" value = "{{ artist['artist_lname'] }}" ><br>
+      </div>
+      <input type="submit" class="btn btn-light" value="Submit">
+    </form>
+    <br/>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+.header {
+    font-size: 30px; 
+    font-weight: 500; 
+    margin-top:30px;
+}
+ .mt20 {
+    margin-top: 20px;
+ }
+
+ .mt-30 {
+    margin-top:-30px;
+ }
+.pagecontainer {
+    padding-left: 50px;
+    padding-right: 50px; 
+}
+
+.formcontainer {
+    width: 300px;
+}

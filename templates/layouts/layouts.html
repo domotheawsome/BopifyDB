@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, inital-scale=1.0">
+    </meta>
+    <title>Bopify</title>
+    <!-- Bootstrap 5 CSS only -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static',filename='../static/styles.css') }}"  type="text/css"/>
+
+
+    <nav 
+        class =
+            "navbar navbar-expand-lg navbar-light bg-light" 
+        style =
+            "position: sticky;
+            top: 0;
+            z-index: 100;"
+        >    
+        <a class="navbar-brand" href="{{url_for('index')}}">Bopify</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{url_for('index')}}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('users')}}">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url_for('songs')}}">Songs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('albums')}}">Albums</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('artists')}}">Artists</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('playlists')}}">Playlists</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{url_for('PlaylistsSongs')}}">PlaylistsSongs</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+</head>
+<body>
+    {% block content %}
+    <!-- Bootstrap 5 JavaScript and dependencies-->
+    
+    {% for myscript in jsscripts %}
+    <script src="/static/{{myscript}}"></script>
+    {% endfor %}
+    
+    {% endblock %}
+</body>
+</html>

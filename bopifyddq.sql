@@ -56,7 +56,7 @@ CREATE TABLE Artists (
   /* artist specific attributes */
   artist_ID INT AUTO_INCREMENT,
   artist_fname VARCHAR(255) NOT NULL,
-  artist_lname VARCHAR(255) NOT NULL,
+  artist_lname VARCHAR(255) NULL,
   PRIMARY KEY (artist_ID)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

@@ -1,66 +1,84 @@
+{% extends 'layouts/layouts.html' %}
+
 <html>
+{% block content %}
 {% for eachfoo in foo %}
 {{eachfoo}}
 {% endfor %}
 
-<h1>Artists page</h1>
 
-<h3>Add New Artists:</h3>
-<form id="addartist" action="{{ url_for('artists_functionality') }}" method="POST">
-    First name: <input type="text" name="artist_fname"><br>
-    Last name: <input type="text" name="artist_lname"><br>
-    <input type="submit" name="Submit" value="Add">
-    <!--
-    <input type="submit" name="Update" value="Update">
-    -->
-</form>
-<br/>
+<div class="pagecontainer">
+    <div class="formcontainer">
+        <h3 class="display-1 header">Add New Artists:</h3>
+        <form id="addartist" action="{{ url_for('artists_functionality') }}" method="POST">
+            <div class="form-group">
+                <label for="artist_fname"> First name:</label>
+                <input class="form-control"type="text" name="artist_fname"><br>
+            </div>
+            <div class="form-group mt-30">
+                <label for="artist_lname"> Last name:</label>
+                <input type="text" class="form-control" name="artist_lname"><br>
+            </div>
+            <input type="submit" class="btn btn-light" name="Submit" value="Add">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <br/>
 
-<h3>Search for Artists:</h3>
-<form id="searchartist" action="{{ url_for('artists_functionality') }}" method="POST">
-    First name: <input type="text" name="artist_fname"><br>
-    Last name: <input type="text" name="artist_lname"><br>
-    <input type="submit" name="Search" value="Search">
-    <!--
-    <input type="submit" name="Update" value="Update">
-    -->
-</form>
-<h3>Return from search</h3>
-<form id="searchartist" action="{{ url_for('artists_functionality') }}" method="POST">
-    <input type="submit" name="Return" value="Return">
-    <!--
-    <input type="submit" name="Update" value="Update">
-    -->
-</form>
-<br/>
+        <h3  class="display-1 header">Search for Artists:</h3>
+        <form id="searchartist" action="{{ url_for('artists_functionality') }}" method="POST">
+            <div class="form-group">
+                <label for="artist_fname"> First name:</label>
+                <input class="form-control"type="text" name="artist_fname"><br>
+            </div>
+            <div class="form-group mt-30">
+                <label for="artist_lname"> Last name:</label>
+                <input type="text" class="form-control" name="artist_lname"><br>
+            </div>
+            <input type="submit" class="btn btn-light" name="Search" value="Search">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <h3  class="display-1 header">Return from search</h3>
+        <form id="searchartist" action="{{ url_for('artists_functionality') }}" method="POST">
+            <input type="submit" class="btn btn-light mt20" name="Return" value="Return">
+            <!--
+            <input type="submit" name="Update" value="Update">
+            -->
+        </form>
+        <br/>
+    </div>
+
+    <p>{{ insert_result }}</p>
 
 
-<p>{{ insert_result }}</p>
 
 
-
-
-<!-- Current people -->
-<h3>Current artists</h3>
-<table border='1'>
-    <thead>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-    </thead>
-    <tbody>
-      {% for r in rows %}
-     <tr>
-        <td> {{ r['artist_ID'] }}</td>
-        <td> {{ r['artist_fname'] }}</td>
-        <td> {{ r['artist_lname'] }}</td>
-        <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_artists/{{r['artist_ID']}}'"> </td>
-        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_artists/{{r['artist_ID']}}'"> </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-</table>
-
+    <!-- Current people -->
+    <h3 class="display-1 header">Current artists</h3>
+    <table class="table" style="margin-bottom: 100px;">
+        <thead>
+            <th scope="col">ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+        {% for r in rows %}
+        <tr>
+            <th scope="row"> {{ r['artist_ID'] }}</th>
+            <td> {{ r['artist_fname'] }}</td>
+            <td> {{ r['artist_lname'] }}</td>
+            <td> <input type='button' class="btn btn-light" name='Update' value='Update' onclick="window.location = '/update_artists/{{r['artist_ID']}}'"> </td>
+            <td> <input type='button' class="btn btn-light" name='Delete' value='Delete' onclick="window.location = '/delete_artists/{{r['artist_ID']}}'"> </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 <!--
     elif "Update" in request.form:
@@ -100,3 +118,4 @@
         return  render_template('people.html', rows=result, planets=planetresult, insertresult=updateresult)
 -->
 </html>
+{% endblock %}

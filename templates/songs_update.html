@@ -1,33 +1,52 @@
-<h3>Update a Song:</h3>
-<form id="update_song" action="/update_songs/{{song['song_ID']}}" method="POST">
-  <!-- character_id {{ character_id }} -->
-  <input type="hidden" name="song_ID" value = "{{ song['song_ID'] }}">
-  Song Name: <input type="text" name="song_name" value = "{{ song['song_name'] }}"><br>
-  Song Genre: <input type="text" name="song_genre" value = "{{ song['song_genre'] }}" ><br>
-  artist_ID: <select name="artist_ID">
-	<!-- display all artists inside this dropdown -->
-        {% for artist in artists %}
-          {{ artist['artist_ID'] }}
-          {{ song['song_ID'] }}
-          {% if artist['artist_ID'] == song['song_ID'] %}
-             <option selected value="{{ artist['artist_ID'] }}">{{ artist['artist_fname'] }} {{artist['artist_lname'] }}</option>
-          {% else %}
-            <option value="{{ artist['artist_ID'] }}">{{ artist['artist_fname'] }} {{artist['artist_lname'] }}</option>
-          {% endif %}
-        {% endfor %}
-    </select><br>
-    album_ID: <select name="album_ID">
-      <!-- display all albums inside this dropdown -->
-            {% for album in albums %}
-              {{ album['album_ID'] }}
+{% extends 'layouts/layouts.html' %}
+{% block content %}
+<div class="pagecontainer">
+  <div class="formcontainer">
+    <h3 class="display-1 header">Update a Song:</h3>
+    <form id="update_song" action="/update_songs/{{song['song_ID']}}" method="POST">
+      <!-- character_id {{ character_id }} -->
+      <input type="hidden" name="song_ID" value = "{{ song['song_ID'] }}">
+      <div class="form-group">
+        <label for="song_name"> Song name:</label>
+        <input type="text" class="form-control" name="song_name" value = "{{ song['song_name'] }}"><br>
+      </div>
+      <div class="form-group mt-30">
+        <label for="song_name"> Song genre:</label>
+        <input type="text" class="form-control" name="song_genre" value = "{{ song['song_genre'] }}" ><br>
+    </div>
+    <div class="form-group mt-30">
+      <label for="song_name" > Artist:</label>
+      <select class="form-control" name="artist_ID">
+      <!-- display all artists inside this dropdown -->
+            {% for artist in artists %}
+              {{ artist['artist_ID'] }}
               {{ song['song_ID'] }}
-              {% if album['album_ID'] == song['song_ID'] %}
-                 <option selected value="{{ album['album_ID'] }}">{{ album['album_name'] }}</option>
+              {% if artist['artist_ID'] == song['song_ID'] %}
+                <option selected value="{{ artist['artist_ID'] }}">{{ artist['artist_fname'] }} {{artist['artist_lname'] }}</option>
               {% else %}
-                <option value="{{ album['album_ID'] }}">{{ album['album_name'] }}</option>
+                <option value="{{ artist['artist_ID'] }}">{{ artist['artist_fname'] }} {{artist['artist_lname'] }}</option>
               {% endif %}
             {% endfor %}
         </select><br>
-    <input type="submit" value="Submit">
- </form>
-<br/>
+      </div>
+      <div class="form-group mt-30">
+        <label for="song_name"> Album:</label>
+        <select class="form-control"  name="album_ID">
+          <!-- display all albums inside this dropdown -->
+                {% for album in albums %}
+                  {{ album['album_ID'] }}
+                  {{ song['song_ID'] }}
+                  {% if album['album_ID'] == song['song_ID'] %}
+                    <option selected value="{{ album['album_ID'] }}">{{ album['album_name'] }}</option>
+                  {% else %}
+                    <option value="{{ album['album_ID'] }}">{{ album['album_name'] }}</option>
+                  {% endif %}
+                {% endfor %}
+            </select><br>
+        </div>
+        <input type="submit" class="btn btn-light" value="Submit">
+    </form>
+    <br/>
+  </div>
+</div>
+{% endblock %}
