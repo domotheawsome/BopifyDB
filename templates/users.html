@@ -3,12 +3,12 @@
 {{eachfoo}}
 {% endfor %}
 
-<h1>Artists page</h1>
+<h1>Users page</h1>
 
-<h3>Add New Artists:</h3>
-<form id="addartist" action="{{ url_for('artists_functionality') }}" method="POST">
-    First name: <input type="text" name="artist_fname"><br>
-    Last name: <input type="text" name="artist_lname"><br>
+<h3>Add New Users:</h3>
+<form id="adduser" action="{{ url_for('users_functionality') }}" method="POST">
+    Username: <input type="text" name="user_name"><br>
+    User Email: <input type="text" name="user_email"><br>
     <input type="submit" name="Submit" value="Add">
     <!--
     <input type="submit" name="Update" value="Update">
@@ -16,17 +16,17 @@
 </form>
 <br/>
 
-<h3>Search for Artists:</h3>
-<form id="searchartist" action="{{ url_for('artists_functionality') }}" method="POST">
-    First name: <input type="text" name="artist_fname"><br>
-    Last name: <input type="text" name="artist_lname"><br>
+<h3>Search for Users:</h3>
+<form id="searchuser" action="{{ url_for('users_functionality') }}" method="POST">
+    Username: <input type="text" name="user_name"><br>
+    User Email: <input type="text" name="user_email"><br>
     <input type="submit" name="Search" value="Search">
     <!--
     <input type="submit" name="Update" value="Update">
     -->
 </form>
 <h3>Return from search</h3>
-<form id="searchartist" action="{{ url_for('artists_functionality') }}" method="POST">
+<form id="searchuser" action="{{ url_for('users_functionality') }}" method="POST">
     <input type="submit" name="Return" value="Return">
     <!--
     <input type="submit" name="Update" value="Update">
@@ -41,21 +41,21 @@
 
 
 <!-- Current people -->
-<h3>Current artists</h3>
+<h3>Current users</h3>
 <table border='1'>
     <thead>
         <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>Username</th>
+        <th>User Email</th>
     </thead>
     <tbody>
       {% for r in rows %}
      <tr>
-        <td> {{ r['artist_ID'] }}</td>
-        <td> {{ r['artist_fname'] }}</td>
-        <td> {{ r['artist_lname'] }}</td>
-        <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_artists/{{r['artist_ID']}}'"> </td>
-        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_artists/{{r['artist_ID']}}'"> </td>
+        <td> {{ r['user_ID'] }}</td>
+        <td> {{ r['user_name'] }}</td>
+        <td> {{ r['user_email'] }}</td>
+        <td> <input type='button' name='Update' value='Update' onclick="window.location = '/update_users/{{r['user_ID']}}'"> </td>
+        <td> <input type='button' name='Delete' value='Delete' onclick="window.location = '/delete_users/{{r['user_ID']}}'"> </td>
       </tr>
       {% endfor %}
     </tbody>

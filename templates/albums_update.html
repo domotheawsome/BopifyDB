@@ -1,5 +1,5 @@
 <h3>Update an Album:</h3>
-<form id="update_album" action="/update_album/{{album['album_ID']}}" method="POST">
+<form id="update_album" action="/update_albums/{{album['album_ID']}}" method="POST">
   <!-- character_id {{ character_id }} -->
   <input type="hidden" name="album_ID" value = "{{ album['album_ID'] }}">
   Album Name: <input type="text" name="album_name" value = "{{ album['album_name'] }}"><br>
@@ -8,8 +8,8 @@
 	<!-- display all planets inside this dropdown -->
         {% for artist in artists %}
           {{ artist['artist_ID'] }}
-          {{ album['artist_ID'] }}
-          {% if artist['artist_ID'] == album['artist_ID'] %}
+          {{ album['album_ID'] }}
+          {% if artist['artist_ID'] == album['album_ID'] %}
              <option selected value="{{ artist['artist_ID'] }}">{{ artist['artist_fname'] }} {{artist['artist_lname'] }}</option>
           {% else %}
             <option value="{{ artist['artist_ID'] }}">{{ artist['artist_fname'] }} {{artist['artist_lname'] }}</option>

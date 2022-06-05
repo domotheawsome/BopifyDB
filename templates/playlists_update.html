@@ -1,0 +1,20 @@
+<h3>Update an Playlist:</h3>
+<form id="update_playlist" action="/update_playlists/{{playlist['playlist_ID']}}" method="POST">
+  <!-- character_id {{ character_id }} -->
+  <input type="hidden" name="playlist_ID" value = "{{ playlist['playlist_ID'] }}">
+  Playlist Name: <input type="text" name="playlist_name" value = "{{ playlist['playlist_name'] }}"><br>
+  User_ID: <select name="user_ID">
+	<!-- display all Playlists inside this dropdown -->
+        {% for user in users %}
+          {{ user['user_ID'] }}
+          {{ playlist['playlist_ID'] }}
+          {% if user['user_ID'] == playlist['playlist_ID'] %}
+             <option selected value="{{ user['user_ID'] }}">{{ user['user_name'] }}</option>
+          {% else %}
+            <option value="{{ user['user_ID'] }}">{{ user['user_name'] }} </option>
+          {% endif %}
+        {% endfor %}
+    </select><br>
+    <input type="submit" value="Submit">
+ </form>
+<br/>

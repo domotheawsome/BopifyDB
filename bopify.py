@@ -526,5 +526,266 @@ def delete_songs(id):
 
 #################### END SONGS ######################
 
+############### USER FUNCTIONALITY ##################
+
+
+@bopify.route('/users')
+def users():
+    print("Fetching and rendering artists web page")
+    db_connection = connect_to_database(host,user,passwd,db)
+    query = "SELECT user_ID, user_name, user_email from Users;"
+    result = execute_query(db_connection, query).fetchall()
+    print(result)
+
+
+    return render_template('users.html', rows=result)
+
+
+@bopify.route('/users_functionality/', methods=['GET', 'POST'])
+def users_functionality():
+    
+    db_connection = connect_to_database(host,user,passwd,db)
+
+    usersquery = "SELECT artist_fname, artist_lname, artist_ID from Artists;"
+    usersresult = execute_query(db_connection, usersquery).fetchall()
+    print(usersresult)
+
+
+    if "Submit" in request.form:
+        print("Add new Users!")
+        print(request.form)
+        user_name = request.form['user_name']
+        user_email = request.form['user_email']
+
+        insertquery = 'INSERT INTO Users (user_name, user_email) VALUES (%s,%s)'
+        insertdata = [user_name, user_email]
+
+        # check for null/empty data
+        index = 0
+        for data in insertdata:
+            if data == '': insertdata[index] = None
+            index += 1
+        try:
+            execute_query(db_connection, insertquery, insertdata)
+
+
+        except Exception as e:
+            error = f"Error: {e.args[1]}" 
+            return  render_template('users.html', rows=result, data=error)
+
+
+                # print out a message to let the user know a cashier was added
+        insertresult = f"User Added: {user_name} {user_email}"
+
+        # query to get new data
+        query = "SELECT user_name, user_email, user_ID from Users;"
+        result = execute_query(db_connection, query)
+
+        return  render_template('users.html', rows=result,  insertresult=insertresult)
+    elif "Update" in request.form:
+        pass
+    elif "Delete" in request.form:
+        pass
+    elif "Search" in request.form:
+        user_name = request.form['user_name']
+        user_email = request.form['user_email']
+    
+        searchdata=(user_name, user_email)
+        searchquery="SELECT * from Users where user_name=%s or user_email=%s"
+        try:
+            searchresult=execute_query(db_connection, searchquery, searchdata).fetchall()
+        except Exception as e:
+            error= f"Error: {e.args[1]}"
+            return render_template('users.html', rows=result, data=error)
+        return  render_template('users.html', rows=searchresult)
+    elif "Return" in request.form:
+        return redirect('/users')
+
+  
+#display update form and process any updates, using the same function
+@bopify.route('/update_users/<int:user_ID>', methods=['POST','GET'])
+def update_users(user_ID):
+    print('In the function')
+    db_connection = connect_to_database(host,user,passwd,db)
+    #display existing data
+    if request.method == 'GET':
+        print('The GET request')
+        users_query = 'SELECT user_ID, user_name, user_email from Users WHERE user_ID = %s'  % (user_ID)
+        users_result = execute_query(db_connection, users_query).fetchone()
+
+        if users_result == None:
+            return "No such person found!"
+
+        print('Returning')
+        return render_template('users_update.html', user = users_result)
+    elif request.method == 'POST':
+        print('The POST request')
+        user_ID = request.form['user_ID']
+        user_name = request.form['user_name']
+        user_email = request.form['user_email']
+
+        query = "UPDATE Users SET user_name = %s, user_email = %s WHERE user_ID = %s"
+        data = (user_name, user_email, user_ID)
+        result = execute_query(db_connection, query, data)
+        print(str(result.rowcount) + " row(s) updated")
+
+        return redirect('/users')
+
+@bopify.route('/delete_users/<int:user_ID>')
+def delete_users(user_ID):
+    '''deletes a user with the given id'''
+    db_connection = connect_to_database(host,user,passwd,db)
+    query = "DELETE FROM Users WHERE user_ID = %s"
+    data = (user_ID,)
+
+    execute_query(db_connection, query, data)
+    return redirect('/users')
+
+
+
+#################### END USERS ######################
+
+############# PLAYLIST FUNCTIONALITY ################
+
+
+
+@bopify.route('/playlists')
+def playlists():
+
+
+    print("Fetching and rendering playlists web page")
+    db_connection = connect_to_database(host,user,passwd,db)
+    query = "SELECT playlist_ID, playlist_name, user_ID from Playlists;"
+    result = execute_query(db_connection, query).fetchall()
+    usersquery = "SELECT user_ID, user_name, user_email from Users;"
+    usersresult = execute_query(db_connection, usersquery).fetchall()
+    print(result)
+    print(usersresult)
+
+
+    return render_template('playlists.html', rows=result,users=usersresult)
+
+
+@bopify.route('/playlists_functionality/', methods=['GET', 'POST'])
+def playlists_functionality():
+    
+    db_connection = connect_to_database(host,user,passwd,db)
+
+    playlistsquery = "SELECT playlist_name, user_ID, playlist_ID from Playlists;"
+    playlistsresult = execute_query(db_connection, playlistsquery).fetchall()
+    print(playlistsresult)
+
+    usersquery = "SELECT user_ID, user_name from Users;"
+    usersresult = execute_query(db_connection, usersquery).fetchall()
+    print(usersresult)
+
+
+    if "Submit" in request.form:
+        print("Add new playlists!")
+        playlist_name = request.form['playlist_name']
+        user_ID = request.form['user_ID']
+
+        insertquery = 'INSERT INTO Playlists (playlist_name, user_ID) VALUES (%s,%s)'
+        insertdata = [playlist_name, user_ID]
+
+        # check for null/empty data
+        index = 0
+        for data in insertdata:
+            if data == '': 
+                insertdata[index] = None
+            index += 1
+        try:
+            execute_query(db_connection, insertquery, insertdata)
+
+
+        except Exception as e:
+            error = f"Error: {e.args[1]}" 
+            return  render_template('playlists.html', rows=playlistsresult, users=usersresult, data=error)
+
+
+                # print out a message to let the user know a cashier was added
+        insertresult = f"Playlist Added: {playlist_name}"
+
+        # query to get new data
+        playlistsquery = "SELECT playlist_name, user_ID, playlist_ID from Playlists;"
+        playlistsresult = execute_query(db_connection, playlistsquery).fetchall()
+        print(playlistsresult)
+
+        usersquery = "SELECT user_ID, user_name from Users;"
+        usersresult = execute_query(db_connection, usersquery).fetchall()
+
+        return  render_template('playlists.html', rows=playlistsresult, users=usersresult, insertresult=insertresult)
+    elif "Update" in request.form:
+        pass
+    elif "Delete" in request.form:
+        pass
+    elif "Search" in request.form:
+        playlist_name = request.form['playlist_name']
+
+        searchdata=(playlist_name)
+        searchquery="SELECT * from Playlists where playlist_name=%s"
+        try:
+            searchresult=execute_query(db_connection, searchquery, searchdata).fetchall()
+        except Exception as e:
+            error=f"Error: {e.args[1]}"
+            return render_template('playlists.html', rows=playlistsresult, users=usersresult, data=error)
+        return  render_template('playlists.html', rows=searchresult, users=usersresult)
+    elif "Return" in request.form:
+        return redirect('/playlists')
+
+        
+
+#display update form and process any updates, using the same function
+@bopify.route('/update_playlists/<int:id>', methods=['POST','GET'])
+def update_playlists(id):
+    print('In the function')
+    db_connection = connect_to_database(host,user,passwd,db)
+    #display existing data
+    if request.method == 'GET':
+        print('The GET request')
+        playlists_query = 'SELECT playlist_name, user_ID, playlist_ID from Playlists WHERE playlist_ID = %s;'  % (id)
+        playlists_result = execute_query(db_connection, playlists_query).fetchone()
+        print(playlists_result)
+
+        if playlists_result == None:
+            return "No such playlists found!"
+        usersquery = "SELECT user_ID, user_name from Users;"
+        usersresult = execute_query(db_connection, usersquery).fetchall()
+        print(usersresult)
+        print('Returning')
+        return render_template('playlists_update.html',playlist = playlists_result, users = usersresult)
+    elif request.method == 'POST':
+        print('The POST request')
+        playlist_name = request.form['playlist_name']
+        user_ID = request.form['user_ID']
+        playlist_ID = request.form['playlist_ID']
+        data = (playlist_name, user_ID, playlist_ID)
+        print(data)
+        query = "UPDATE Playlists SET playlist_name = %s, user_ID = %s WHERE playlist_ID = %s;"
+    
+        result = execute_query(db_connection, query, data)
+        print(str(result.rowcount) + " row(s) updated")
+
+        return redirect('/playlists')
+
+@bopify.route('/delete_playlists/<int:id>')
+def delete_playlists(id):
+    '''deletes a playlist with the given id'''
+    db_connection = connect_to_database(host,user,passwd,db)
+    query = "DELETE FROM Playlists WHERE playlist_ID = %s"
+    data = (id,)
+
+    result = execute_query(db_connection, query, data)
+    return redirect('/playlists')
+
+
+################## END PLAYLISTS ####################
+
+######### PLAYLISTINSONGS FUNCTIONALITY #############
+
+############# END PLAYLISTSINSONGS ##################
+
+
+
 if __name__ == '__main__':
     bopify.run(host='0.0.0.0', port=9119, debug=True)
