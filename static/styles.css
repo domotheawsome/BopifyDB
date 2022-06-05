@@ -3,6 +3,10 @@
     font-weight: 500; 
     margin-top:30px;
 }
+.text-xl {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.75rem; /* 28px */
+}
  .mt20 {
     margin-top: 20px;
  }
