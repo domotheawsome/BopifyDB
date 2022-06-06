@@ -316,7 +316,7 @@ def delete_artists(artist_ID):
 
 '''
     When you navigate to Albums, it will query the albums database 
-    for the current albums data and renders it in the albums.html 
+    for the current albums data and render it in the albums.html 
     page. This implements the READ functionality by reading 
     in all of the data using SELECT.
     
@@ -1283,4 +1283,4 @@ def delete_PlaylistsSongs(id):
 
 
 if __name__ == '__main__':
-    bopify.run(host='0.0.0.0', port=9120, debug=True)
+    bopify.run(host='0.0.0.0', port=9120, debug=True) 

@@ -7,7 +7,17 @@
 {% endfor %}
 
 <div class="pagecontainer">
+    <p>
+        When you navigate to Albums, you have the opportunity to query the 
+        Albums database for the most current data and perform INSERT, UPDATE,
+        DELETE, and SEARCH operations. 
+
+        Albums shares 0 or many to one relationship with artists, and a 
+        one to many relationship with both Songs. Albums inherits the 
+        foreign key for Artists (artist_ID) per this many:one relationship. 
+    </p>
     <div class="formcontainer">
+        </br>
         <h3 class="display-1 header">Add new Albums:</h3>
         <form id="addalbum" action="{{ url_for('albums_functionality') }}" method="POST">
             <div class="form-group">
@@ -123,17 +133,4 @@
 
         except Exception as e:
             error = f"Error: {e.args[1]}" 
-            return  render_template('albums.html', rows=result, planets=planetresult, data=error)
-
-
-                # print out a message to let the user know a cashier was added
-        updateresult = f"album Updated: {fname} {lname}"
-
-        # query to get new data
-        query = "SELECT fname, lname, homeworld, age, id from bsg_albums;"
-        result = execute_query(db_connection, query)
-
-        return  render_template('albums.html', rows=result, planets=planetresult, insertresult=updateresult)
--->
-</html>
-{% endblock %}
+            return  render_template('albums.html', rows=result, planets=planetresult, dat

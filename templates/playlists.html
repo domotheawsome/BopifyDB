@@ -9,6 +9,13 @@
 
 
 <div class="pagecontainer">
+    <p>
+        When you navigate to Artists, you have the opportunity to query the 
+        Artists database for the most current data and perform INSERT, UPDATE,
+        DELETE, and SEARCH operations. 
+
+        Artists shares a one to many relationship with both Albums and Songs. Artists does not inherit foriegn keys.  
+    </p>
     <div class="formcontainer">
         <h3 class="display-1 header">Add new Playlists:</h3>
         <form id="addplaylist" action="{{ url_for('playlists_functionality') }}" method="POST">
@@ -120,15 +127,4 @@
 
 
                 # print out a message to let the user know a cashier was added
-        updateresult = f"playlist Updated: {fname} {lname}"
-
-        # query to get new data
-        query = "SELECT fname, lname, homeworld, age, id from bsg_playlists;"
-        result = execute_query(db_connection, query)
-
-        return  render_template('playlists.html', rows=result, planets=planetresult, insertresult=updateresult)
--->
-
-{% endblock %}
-</html>
-
+        updateresult = f"playlist Upda
